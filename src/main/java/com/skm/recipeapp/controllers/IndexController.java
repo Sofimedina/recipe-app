@@ -11,5 +11,10 @@ public class IndexController {
         return "index";
     }
 
+    @RequestMapping({"","/","/sofia"})
+    public String getAnotherPage(){
+        return "index";
+    }
+
 
 }
