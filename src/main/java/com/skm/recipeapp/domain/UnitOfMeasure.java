@@ -27,4 +27,6 @@ public class UnitOfMeasure {
         this.description = description;
     }
 
+    public UnitOfMeasure() {
+    }
 }

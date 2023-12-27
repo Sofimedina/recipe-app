@@ -1,8 +1,11 @@
 package com.skm.recipeapp.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -16,20 +19,24 @@ public class Recipe {
     private Integer servings;
     private String source;
     private  String url;
+    @Lob
     private String directions;
     @Enumerated(value = EnumType.STRING)
     private  Difficulty difficulty;
     @Lob
     private Byte[] image;
     @OneToOne(cascade = CascadeType.ALL)
-    private  Notes notes;
+    private Note notes;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "recipe")
-    private Set<Ingredients> ingredients;
+    private Set<Ingredient> ingredients=new HashSet<>();
     @ManyToMany
     @JoinTable(name = "recipe_category",
             joinColumns = @JoinColumn(name = "recipe_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id"))
-    private Set<Category> categories;
+    private Set<Category> categories=new HashSet<>();
+
+    public Recipe() {
+    }
 
     public Long getId() {
         return id;
@@ -99,19 +106,19 @@ public class Recipe {
         this.image = image;
     }
 
-    public Notes getNotes() {
+    public Note getNotes() {
         return notes;
     }
 
-    public void setNotes(Notes notes) {
+    public void setNotes(Note notes) {
         this.notes = notes;
     }
 
-    public Set<Ingredients> getIngredients() {
+    public Set<Ingredient> getIngredients() {
         return ingredients;
     }
 
-    public void setIngredients(Set<Ingredients> ingredients) {
+    public void setIngredients(Set<Ingredient> ingredients) {
         this.ingredients = ingredients;
     }
 
@@ -121,5 +128,24 @@ public class Recipe {
 
     public void setCategories(Set<Category> categories) {
         this.categories = categories;
+    }
+
+    @Override
+    public String toString() {
+        return "Recipe{" +
+                "id=" + id +
+                ", description='" + description + '\'' +
+                ", prepTime=" + prepTime +
+                ", cookTime=" + cookTime +
+                ", servings=" + servings +
+                ", source='" + source + '\'' +
+                ", url='" + url + '\'' +
+                ", directions='" + directions + '\'' +
+                ", difficulty=" + difficulty +
+                ", image=" + Arrays.toString(image) +
+                ", notes=" + notes +
+                ", ingredients=" + ingredients +
+                ", categories=" + categories +
+                '}';
     }
 }
