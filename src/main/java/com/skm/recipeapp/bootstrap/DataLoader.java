@@ -40,12 +40,11 @@ public class DataLoader implements CommandLineRunner {
 
         Note guacamoleNotes=new Note();
         guacamoleNotes.setRecipeNotes("have fun");
-        guacamoleNotes.setRecipe(recipeGuacamole);
         recipeGuacamole.setNotes(guacamoleNotes);
 
 
-        recipeGuacamole.getIngredients().add(new Ingredient("advocado",new BigDecimal(2),recipeGuacamole,unitOfMeasureRepository.findByDescription("Whole").get()));
-        recipeGuacamole.getIngredients().add(new Ingredient("cilantro",new BigDecimal(2),recipeGuacamole,unitOfMeasureRepository.findByDescription("Tablespoon").get()));
+        recipeGuacamole.addIngredient(new Ingredient("advocado",new BigDecimal(2),recipeGuacamole,unitOfMeasureRepository.findByDescription("Whole").get()));
+        recipeGuacamole.addIngredient(new Ingredient("cilantro",new BigDecimal(2),recipeGuacamole,unitOfMeasureRepository.findByDescription("Tablespoon").get()));
 
         recipeGuacamole.getCategories().add(categoryRepository.findByDescription("Mexican").get());
 
