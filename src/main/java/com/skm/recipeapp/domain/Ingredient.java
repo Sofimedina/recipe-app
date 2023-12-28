@@ -16,16 +16,15 @@ public class Ingredient {
     @ManyToOne
     private Recipe recipe;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne
     private UnitOfMeasure unitOfMeasure;
 
     public Ingredient() {
     }
 
-    public Ingredient(String description, BigDecimal ammount, Recipe recipe, UnitOfMeasure unitOfMeasure) {
+    public Ingredient(String description, BigDecimal ammount, UnitOfMeasure unitOfMeasure) {
         this.description = description;
         this.amount = ammount;
-        this.recipe = recipe;
         this.unitOfMeasure = unitOfMeasure;
     }
 
