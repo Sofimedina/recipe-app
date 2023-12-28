@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RecipeServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">recipe-app</a> &gt; <a href="index.source.html" class="el_package">com.skm.recipeapp.services</a> &gt; <span class="el_source">RecipeServiceImpl.java</span></div><h1>RecipeServiceImpl.java</h1><pre class="source lang-java linenums">package com.skm.recipeapp.services;
+
+import com.skm.recipeapp.domain.Recipe;
+import com.skm.recipeapp.repositories.RecipeRepository;
+import org.springframework.stereotype.Service;
+
+import java.util.HashSet;
+import java.util.Set;
+
+@Service
+public class RecipeServiceImpl implements RecipeService {
+
+    private final RecipeRepository recipeRepository;
+
+
+<span class="fc" id="L16">    public RecipeServiceImpl(RecipeRepository recipeRepository) {</span>
+<span class="fc" id="L17">        this.recipeRepository = recipeRepository;</span>
+<span class="fc" id="L18">    }</span>
+
+    @Override
+    public Set&lt;Recipe&gt; getRecipes() {
+<span class="fc" id="L22">        Set&lt;Recipe&gt; recipes=new HashSet&lt;&gt;();</span>
+<span class="fc" id="L23">        recipeRepository.findAll().iterator().forEachRemaining(recipes::add);</span>
+<span class="fc" id="L24">        return recipes;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
