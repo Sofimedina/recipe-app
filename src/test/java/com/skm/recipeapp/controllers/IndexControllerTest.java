@@ -6,49 +6,57 @@ import com.skm.recipeapp.services.RecipeService;
 import com.skm.recipeapp.services.RecipeServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.springframework.ui.Model;
 
 import java.util.HashSet;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
-
+import static org.mockito.ArgumentMatchers.anySet;
+import static org.mockito.ArgumentMatchers.eq;
 
 class IndexControllerTest {
-    RecipeServiceImpl recipeService;
-
     @Mock
-    RecipeRepository recipeRepository;
+    RecipeService recipeService;
+    @Mock
+    Model model;
+
+    IndexController indexController;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-
-        recipeService=new RecipeServiceImpl(recipeRepository);
+        indexController=new IndexController(recipeService);
     }
 
     @Test
     void getIndexPage() {
 
-    }
-
-    @Test
-    void getRecipes() {
-
+        //GIVEN
+        Set<Recipe> recipes=new HashSet<>();
         Recipe recipe=new Recipe();
+        recipe.setId(1l);
         Recipe recipe2=new Recipe();
-        HashSet recipeData=new HashSet();
-        recipeData.add(recipe);
-        recipeData.add(recipe2);
+        recipe.setId(2l);
 
-        Mockito.when(recipeRepository.findAll()).thenReturn(recipeData);
+        recipes.add(recipe);
+        recipes.add(recipe2);
 
-        Set<Recipe> recipeSet=recipeService.getRecipes();
+        Mockito.when(recipeService.getRecipes()).thenReturn(recipes);
+        ArgumentCaptor<Set<Recipe>> argumentCaptor=ArgumentCaptor.forClass(Set.class);
 
-        assertEquals(recipeSet.size(),2);
-        Mockito.verify(recipeRepository,Mockito.times(1)).findAll();
+        //WHEN
+        String viewName= indexController.getIndexPage(model);
+
+        //Then
+        assertEquals("index",viewName);
+        Mockito.verify(recipeService,Mockito.times(1)).getRecipes();
+        Mockito.verify(model,Mockito.times(1)).addAttribute(eq("recipes"),argumentCaptor.capture());
+        Set<Recipe> setInController=argumentCaptor.getValue();
+        assertEquals(2,setInController.size())  ;
     }
 }
