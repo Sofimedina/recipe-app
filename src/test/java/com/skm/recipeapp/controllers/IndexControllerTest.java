@@ -10,13 +10,19 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MockMvcBuilder;
+import org.springframework.test.web.servlet.RequestBuilder;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.ui.Model;
 
 import java.util.HashSet;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.anySet;
 import static org.mockito.ArgumentMatchers.eq;
 
 class IndexControllerTest {
@@ -31,6 +37,18 @@ class IndexControllerTest {
     void setUp() {
         MockitoAnnotations.openMocks(this);
         indexController=new IndexController(recipeService);
+    }
+
+    @Test void testMvcController(){
+        MockMvc mockMvc= MockMvcBuilders.standaloneSetup(indexController).build();
+
+        try {
+            mockMvc.perform(MockMvcRequestBuilders.get("/"))
+                    .andExpect(MockMvcResultMatchers.status().isOk())
+                    .andExpect(MockMvcResultMatchers.view().name("index"));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Test
